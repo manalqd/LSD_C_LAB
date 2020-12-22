@@ -4,13 +4,40 @@
 
 float *lu(float A[N][N], float B[N], int n)
 {
-
-  /******Implement the solution here******/
-  /***************************************/
-
-
-  /***************************************/
-  return (x);
+  /*Elimination de gauss sur A pour construire L et U */
+  for(int k=0; k<n-1; k++)
+  {
+        for(int i=k+1; i<n; i++)
+        {
+               L[i][k]=A[i][k]/A[k][k];
+               for(int j=k+1; j<n; j++)
+               {
+                     A[i][j] = A[i][j] - L[i][k] * A[k][j];
+               }
+        }
+  }
+    /*Calcul de Y avec LY = B(Methode de descente) : */
+  Y[0] = B[0];
+  for(int i=1; i<n; i++)
+  {
+         s=0;
+         for(int j=0; j<=i-1; j++)
+         {
+               s = s + L[i][j] * Y[j];
+         }
+         Y[i] = B[i] - s;
+  }
+    /*Calcul de X avec UX = Y(Methode de remontee) : */
+  X[n-1] = Y[n-1] / A[n-1][n-1];
+  for(int i=n-2; i>=0; i--)
+  {   
+        s=0;
+        for(int j=i+1; j<=n-1; j++)
+        {
+              s = s + A[i][j] * X[j];
+        }
+        X[i] = (Y[i] - s) / A[i][i];
+  }
 }
 
 int main()
